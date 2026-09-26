@@ -1,6 +1,7 @@
 const form = document.getElementById('search-form')
 const input = document.getElementById('word-input')
 const errorMessage = document.getElementById('error-message')
+const results = document.getElementById('results')
 
 const wordResult = document.getElementById('word')
 const pronunciation = document.getElementById('pronunciation')
@@ -16,6 +17,7 @@ form.addEventListener('submit', (event) => {
   const word = input.value.trim()
 
   if (!word) {
+    results.classList.add('hidden')
     errorMessage.textContent = 'You must enter a word'
     errorMessage.classList.remove('hidden')
     return
@@ -33,15 +35,18 @@ async function fetchWord(word) {
     const data = await response.json()
 
     if (!data.entries || data.entries.length === 0) {
+      results.classList.add('hidden')
       errorMessage.textContent = 'Word not found'
       errorMessage.classList.remove('hidden')
       return
     }
 
     displayWord(data)
+    results.classList.remove('hidden')
 
     console.log(JSON.stringify(data, null, 2))
   } catch (error) {
+    results.classList.add('hidden')
     errorMessage.textContent = 'Something went wrong. Please try again.'
     errorMessage.classList.remove('hidden')
     console.log(error)
