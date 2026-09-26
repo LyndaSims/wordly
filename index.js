@@ -41,17 +41,30 @@ async function fetchWord(word) {
 }
 
 function displayWord(data) {
+  const entry = data.entries[0]
+  const sense = entry.senses[0]
+
   wordResult.textContent = data.word
-  pronunciation.textContent = data.entries[0].pronunciations[0].text
-  partOfSpeech.textContent = data.entries[0].partOfSpeech
-  definition.textContent = data.entries[0].senses[0].definition
-  example.textContent = data.entries[0].senses[0].examples[0]
+  partOfSpeech.textContent = entry.partOfSpeech
+  definition.textContent = sense.definition
   source.textContent = data.source.url
 
-  if (data.entries[0].synonyms.length > 0) {
-    synonyms.textContent = data.entries[0].synonyms.join(', ')
-  } else if (data.entries[0].senses[0].synonyms.length > 0) {
-    synonyms.textContent = data.entries[0].senses[0].synonyms.join(', ')
+  if (entry.pronunciations.length > 0) {
+    pronunciation.textContent = entry.pronunciations[0].text
+  } else {
+    pronunciation.textContent = 'No pronunciation found'
+  }
+
+  if (sense.examples.length > 0) {
+    example.textContent = sense.examples[0]
+  } else {
+    example.textContent = 'No example found'
+  }
+
+  if (entry.synonyms.length > 0) {
+    synonyms.textContent = entry.synonyms.join(', ')
+  } else if (sense.synonyms.length > 0) {
+    synonyms.textContent = sense.synonyms.join(', ')
   } else {
     synonyms.textContent = 'No synonyms found'
   }
