@@ -32,10 +32,18 @@ async function fetchWord(word) {
     const response = await fetch(`https://freedictionaryapi.com/api/v1/entries/en/${word}`)
     const data = await response.json()
 
+    if (!data.entries || data.entries.length === 0) {
+      errorMessage.textContent = 'Word not found'
+      errorMessage.classList.remove('hidden')
+      return
+    }
+
     displayWord(data)
 
     console.log(JSON.stringify(data, null, 2))
   } catch (error) {
+    errorMessage.textContent = 'Something went wrong. Please try again.'
+    errorMessage.classList.remove('hidden')
     console.log(error)
   }
 }
