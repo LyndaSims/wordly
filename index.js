@@ -61,6 +61,7 @@ function displayWord(data) {
   partOfSpeech.textContent = entry.partOfSpeech
   definition.textContent = sense.definition
   source.textContent = data.source.url
+  source.href = data.source.url
 
   if (entry.pronunciations.length > 0) {
     pronunciation.textContent = entry.pronunciations[0].text
